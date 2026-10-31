@@ -1,5 +1,5 @@
 import React from "react";
-import { Gavel, RotateCcw, Zap, Sparkles, Sun, Moon } from "lucide-react";
+import { Gavel } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -9,7 +9,7 @@ export function Header({ status, remainingSeconds, onReset, onFastForward, theme
   return (
     <header className="sticky top-0 z-30 w-full border-b border-border bg-card/95 backdrop-blur-md transition-colors">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6">
-        {/* Brand & Logo with Black and White hierarchy */}
+        {/* Brand & Logo */}
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background shadow-xs ring-2 ring-border transition-colors">
             <Gavel className="h-5 w-5" />
@@ -41,32 +41,21 @@ export function Header({ status, remainingSeconds, onReset, onFastForward, theme
           </div>
         </div>
 
-        {/* Right Navigation & Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Theme Toggle Button (White Theme / Black Theme) */}
+        {/* Clean Typographic Control Buttons (No SVG clutter in buttons) */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Theme Switcher Button */}
           <Button
             variant="outline"
             size="sm"
             onClick={onToggleTheme}
             title={isDark ? "Switch to White Theme" : "Switch to Black Theme"}
-            className="h-8.5 px-3 text-xs font-semibold border-border bg-secondary hover:bg-secondary/80 text-foreground flex items-center gap-1.5 shadow-2xs"
+            className="h-8.5 px-3 text-xs font-bold border-border bg-secondary hover:bg-secondary/80 text-foreground shadow-2xs"
           >
-            {isDark ? (
-              <>
-                <Sun className="h-3.5 w-3.5 text-amber-400" />
-                <span className="font-bold">White Theme</span>
-              </>
-            ) : (
-              <>
-                <Moon className="h-3.5 w-3.5 text-neutral-900" />
-                <span className="font-bold">Black Theme</span>
-              </>
-            )}
+            {isDark ? "White Theme" : "Black Theme"}
           </Button>
 
-          <div className="hidden md:flex items-center gap-1.5 bg-secondary border border-border px-3 py-1.5 rounded-lg text-xs font-medium text-foreground">
-            <Sparkles className="h-3.5 w-3.5 text-foreground" />
-            <span>Demo Session</span>
+          <div className="hidden md:flex items-center bg-secondary border border-border px-3 py-1.5 rounded-lg text-xs font-bold text-foreground">
+            Demo Mode
           </div>
 
           {/* Quick test control buttons */}
@@ -77,10 +66,9 @@ export function Header({ status, remainingSeconds, onReset, onFastForward, theme
                 size="sm"
                 onClick={() => onFastForward(10)}
                 title="Fast forward to 10s for testing"
-                className="h-8.5 text-xs font-semibold border-border bg-card hover:bg-secondary text-foreground"
+                className="h-8.5 px-3 text-xs font-bold border-border bg-card hover:bg-secondary text-foreground"
               >
-                <Zap className="mr-1 h-3.5 w-3.5 text-amber-500" />
-                <span>10s Timer</span>
+                10s Test
               </Button>
             )}
 
@@ -89,9 +77,8 @@ export function Header({ status, remainingSeconds, onReset, onFastForward, theme
               size="sm"
               onClick={() => onReset(300)}
               title="Reset auction"
-              className="h-8.5 text-xs font-semibold border-border bg-card hover:bg-secondary text-foreground"
+              className="h-8.5 px-3 text-xs font-bold border-border bg-card hover:bg-secondary text-foreground"
             >
-              <RotateCcw className="mr-1 h-3.5 w-3.5 text-muted-foreground" />
               Reset
             </Button>
           </div>

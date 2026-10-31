@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Trophy, Ban, Award, CheckCircle2, RotateCcw, Users, TrendingUp } from "lucide-react";
+import { Trophy, Ban, Award, CheckCircle2, Users, TrendingUp } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -129,10 +129,9 @@ export function AuctionResult({ winner, totalBids, startingPrice, onReset }) {
         <Button
           onClick={() => onReset(300)}
           variant="outline"
-          className="w-full font-medium"
+          className="w-full font-bold uppercase tracking-wider text-xs h-10 border-border"
         >
-          <RotateCcw className="mr-2 h-4 w-4" />
-          Start New 5-Minute Auction Round
+          Start New 5-Minute Round
         </Button>
       </CardFooter>
     </Card>

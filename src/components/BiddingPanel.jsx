@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Gavel, AlertCircle, CheckCircle2, User, IndianRupee, ArrowUpRight, Sparkles, ArrowRight } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,8 +87,7 @@ export function BiddingPanel({
     <Card className="border-border shadow-sm bg-card transition-colors">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-black text-foreground flex items-center gap-2 font-sans">
-            <Gavel className="h-5 w-5 text-foreground" />
+          <CardTitle className="text-xl font-black text-foreground font-sans">
             Place Your Bid
           </CardTitle>
           <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-secondary text-foreground border border-border">
@@ -111,8 +110,7 @@ export function BiddingPanel({
           </div>
 
           <div className="flex justify-between items-center py-2 px-3 rounded-lg bg-card border border-border">
-            <span className="text-foreground font-bold flex items-center gap-1.5">
-              <ArrowRight className="h-3.5 w-3.5 text-foreground" />
+            <span className="text-foreground font-bold">
               Minimum Next Bid:
             </span>
             <span className="font-mono font-black text-emerald-700 dark:text-emerald-400 text-lg">
@@ -162,8 +160,7 @@ export function BiddingPanel({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Participant Name */}
           <div className="space-y-1.5">
-            <Label htmlFor="bidderName" className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-              <User className="h-3.5 w-3.5 text-muted-foreground" />
+            <Label htmlFor="bidderName" className="text-xs font-bold uppercase tracking-wider text-foreground">
               Participant Name
             </Label>
             <Input
@@ -183,8 +180,7 @@ export function BiddingPanel({
           {/* Bid Amount */}
           <div className="space-y-1.5">
             <div className="flex justify-between items-center">
-              <Label htmlFor="bidAmount" className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
-                <IndianRupee className="h-3.5 w-3.5 text-muted-foreground" />
+              <Label htmlFor="bidAmount" className="text-xs font-bold uppercase tracking-wider text-foreground">
                 Bid Amount (INR)
               </Label>
               <button
@@ -198,7 +194,7 @@ export function BiddingPanel({
             </div>
 
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground font-mono text-sm">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground font-mono text-sm font-bold">
                 ₹
               </div>
               <Input
@@ -246,24 +242,21 @@ export function BiddingPanel({
             </div>
           )}
 
-          {/* Submit Button */}
+          {/* Submit Button - Pure Typography Without Cluttered SVGs */}
           <Button
             type="submit"
             disabled={isEnded || isSubmitting}
             className="w-full h-11 text-sm font-bold tracking-wide uppercase shadow-sm transition-all"
           >
             {isSubmitting ? (
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
                 Validating Bid...
               </span>
             ) : isEnded ? (
               "Auction Ended — Bidding Closed"
             ) : (
-              <span className="flex items-center justify-center gap-1.5">
-                <ArrowUpRight className="h-4 w-4" />
-                Place Bid (Min {formatCurrency(minRequired)})
-              </span>
+              <span>Place Bid</span>
             )}
           </Button>
         </form>
@@ -273,8 +266,7 @@ export function BiddingPanel({
         {/* Preset Sequence Matching User Example */}
         <div className="space-y-2 pt-1">
           <div className="flex items-center justify-between text-[11px]">
-            <span className="flex items-center gap-1 font-bold text-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-foreground" />
+            <span className="font-bold text-foreground">
               Example Sequence Presets:
             </span>
             <span className="text-[10px] text-muted-foreground">Click to autofill test</span>
