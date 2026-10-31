@@ -1,7 +1,7 @@
 import React from "react";
-import { Clock, AlertTriangle } from "lucide-react";
 import { formatCountdown } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 
 export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }) {
   const isEnded = status === "ENDED" || remainingSeconds <= 0;
@@ -13,55 +13,45 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
     : Math.min(100, Math.max(0, (remainingSeconds / totalDuration) * 100));
 
   return (
-    <div
-      className={`rounded-xl border p-4.5 transition-all duration-300 ${
-        isEnded
-          ? "border-border bg-secondary/60 text-muted-foreground"
-          : isEndingSoon
-          ? "border-amber-500/50 bg-amber-500/10 text-amber-900 dark:text-amber-200"
-          : "border-border bg-secondary/40 text-foreground"
-      }`}
-    >
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-          <Clock className={`h-4 w-4 ${isEndingSoon ? "text-amber-500 animate-spin" : "text-foreground"}`} />
-          <span>{isEnded ? "Auction Status" : "Time Remaining"}</span>
-        </div>
+    <div className="rounded-lg border border-border bg-card p-4 transition-colors">
+      <div className="flex items-center justify-between pb-2">
+        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          Time Remaining
+        </span>
 
-        {isEndingSoon && !isEnded && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/20 px-2.5 py-0.5 text-[11px] font-bold text-amber-800 dark:text-amber-300 animate-pulse">
-            <AlertTriangle className="h-3 w-3 text-amber-500" />
-            Ending Soon!
-          </span>
-        )}
-
-        {isEnded && (
-          <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-muted-foreground border border-border">
+        {isEnded ? (
+          <Badge variant="outline" className="text-[11px] font-medium text-muted-foreground border-border bg-secondary">
             Closed
-          </span>
+          </Badge>
+        ) : isEndingSoon ? (
+          <Badge variant="outline" className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 animate-pulse">
+            Ending Soon
+          </Badge>
+        ) : (
+          <Badge variant="outline" className="text-[11px] font-medium text-foreground border-border bg-secondary">
+            Live Round
+          </Badge>
         )}
       </div>
 
-      <div className="flex items-baseline justify-between">
-        <div className="font-mono text-4xl sm:text-5xl font-black tracking-tight">
+      <div className="flex items-baseline justify-between py-1">
+        <div className="font-mono text-4xl font-bold tracking-tight text-foreground">
           {isEnded ? (
-            <span className="text-xl sm:text-2xl font-bold text-muted-foreground tracking-normal font-sans">
+            <span className="text-2xl font-bold text-muted-foreground font-sans">
               Auction Ended
             </span>
           ) : (
-            <span className={isEndingSoon ? "text-amber-700 dark:text-amber-400 font-black" : "text-foreground font-black"}>
-              {formatCountdown(remainingSeconds)}
-            </span>
+            <span>{formatCountdown(remainingSeconds)}</span>
           )}
         </div>
 
-        <span className="text-xs font-bold font-mono text-muted-foreground tracking-widest uppercase">
+        <span className="font-mono text-xs text-muted-foreground">
           {isEnded ? "00:00" : "MM:SS"}
         </span>
       </div>
 
-      {/* Visual countdown progress */}
-      <div className="mt-3.5">
+      {/* Clean, minimalist progress indicator */}
+      <div className="pt-3">
         <Progress
           value={percentRemaining}
           indicatorColor={
@@ -69,9 +59,9 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
               ? "bg-muted-foreground"
               : isEndingSoon
               ? "bg-amber-500"
-              : "bg-foreground"
+              : "bg-primary"
           }
-          className="h-2"
+          className="h-1.5 rounded-full"
         />
       </div>
     </div>

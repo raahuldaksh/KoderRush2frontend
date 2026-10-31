@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
 
 export function BiddingPanel({
@@ -87,12 +87,12 @@ export function BiddingPanel({
     <Card className="border-border shadow-sm bg-card transition-colors">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-black text-foreground font-sans">
+          <CardTitle className="text-xl font-bold text-foreground font-sans">
             Place Your Bid
           </CardTitle>
-          <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-secondary text-foreground border border-border">
+          <Badge variant="outline" className="text-xs font-semibold px-2.5 py-0.5 border-border bg-secondary">
             Min Increment: ₹100
-          </span>
+          </Badge>
         </div>
         <CardDescription className="text-muted-foreground text-xs">
           Every new bid must be at least ₹100 higher than the current highest bid.
@@ -101,19 +101,19 @@ export function BiddingPanel({
 
       <CardContent className="space-y-4">
         {/* Dynamic Reference Box with Current Highest Bid and Minimum Next Bid */}
-        <div className="rounded-xl bg-secondary/50 border border-border p-4 space-y-2.5 text-xs">
+        <div className="rounded-lg bg-secondary/40 border border-border p-4 space-y-2.5 text-xs">
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground font-semibold">Current Highest Bid:</span>
-            <span className="font-mono font-black text-foreground text-base">
+            <span className="text-muted-foreground font-medium">Current Highest Bid</span>
+            <span className="font-mono font-bold text-foreground text-base">
               {formatCurrency(currentHighestBid)}
             </span>
           </div>
 
-          <div className="flex justify-between items-center py-2 px-3 rounded-lg bg-card border border-border">
-            <span className="text-foreground font-bold">
-              Minimum Next Bid:
+          <div className="flex justify-between items-center py-2 px-3 rounded-md bg-card border border-border">
+            <span className="text-foreground font-semibold">
+              Minimum Next Bid
             </span>
-            <span className="font-mono font-black text-emerald-700 dark:text-emerald-400 text-lg">
+            <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-lg">
               {formatCurrency(minRequired)}
             </span>
           </div>
@@ -121,12 +121,12 @@ export function BiddingPanel({
           {highestBidder ? (
             <div className="flex justify-between items-center pt-1 text-muted-foreground">
               <span className="font-medium">Leading Bidder:</span>
-              <span className="font-bold text-foreground">{highestBidder}</span>
+              <span className="font-semibold text-foreground">{highestBidder}</span>
             </div>
           ) : (
             <div className="flex justify-between items-center pt-1 text-muted-foreground">
               <span className="font-medium">Reserve Base:</span>
-              <span className="font-semibold text-foreground">Awaiting first qualifying bid</span>
+              <span className="font-medium text-foreground">Awaiting first qualifying bid</span>
             </div>
           )}
         </div>
@@ -134,25 +134,22 @@ export function BiddingPanel({
         {/* Feedback Alert: Local error or hook error/success */}
         {localError && (
           <Alert variant="destructive" className="py-2.5">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle className="text-xs font-bold">Invalid Bid</AlertTitle>
-            <AlertDescription className="text-xs font-medium leading-relaxed">{localError}</AlertDescription>
+            <AlertTitle>Invalid Bid</AlertTitle>
+            <AlertDescription>{localError}</AlertDescription>
           </Alert>
         )}
 
         {feedback && feedback.type === "error" && !localError && (
           <Alert variant="destructive" className="py-2.5">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle className="text-xs font-bold">Bidding Error</AlertTitle>
-            <AlertDescription className="text-xs font-medium leading-relaxed">{feedback.message}</AlertDescription>
+            <AlertTitle>Bidding Error</AlertTitle>
+            <AlertDescription>{feedback.message}</AlertDescription>
           </Alert>
         )}
 
         {feedback && feedback.type === "success" && (
           <Alert variant="success" className="py-2.5 animate-fade-in">
-            <CheckCircle2 className="h-4 w-4" />
-            <AlertTitle className="text-xs font-bold">Bid Accepted!</AlertTitle>
-            <AlertDescription className="text-xs font-medium">{feedback.message}</AlertDescription>
+            <AlertTitle>Bid Accepted</AlertTitle>
+            <AlertDescription>{feedback.message}</AlertDescription>
           </Alert>
         )}
 
@@ -160,7 +157,7 @@ export function BiddingPanel({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Participant Name */}
           <div className="space-y-1.5">
-            <Label htmlFor="bidderName" className="text-xs font-bold uppercase tracking-wider text-foreground">
+            <Label htmlFor="bidderName" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Participant Name
             </Label>
             <Input
@@ -173,28 +170,28 @@ export function BiddingPanel({
                 setLocalError("");
               }}
               disabled={isEnded || isSubmitting}
-              className="h-10 text-sm font-medium"
+              className="h-9 text-sm"
             />
           </div>
 
           {/* Bid Amount */}
           <div className="space-y-1.5">
             <div className="flex justify-between items-center">
-              <Label htmlFor="bidAmount" className="text-xs font-bold uppercase tracking-wider text-foreground">
+              <Label htmlFor="bidAmount" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Bid Amount (INR)
               </Label>
               <button
                 type="button"
                 onClick={handleFillExactMinimum}
                 disabled={isEnded || isSubmitting}
-                className="text-[11px] font-bold text-foreground hover:underline cursor-pointer disabled:opacity-40"
+                className="text-xs font-medium text-foreground hover:underline cursor-pointer disabled:opacity-40"
               >
                 Set min: {formatCurrency(minRequired)}
               </button>
             </div>
 
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground font-mono text-sm font-bold">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground font-mono text-sm font-semibold">
                 ₹
               </div>
               <Input
@@ -209,20 +206,20 @@ export function BiddingPanel({
                   setLocalError("");
                 }}
                 disabled={isEnded || isSubmitting}
-                className="pl-8 font-mono font-bold text-sm h-10"
+                className="pl-8 font-mono font-bold text-sm h-9"
               />
             </div>
             {/* Required Helper Text */}
-            <p className="text-[11px] text-muted-foreground font-medium">
+            <p className="text-[11px] text-muted-foreground">
               Your bid must be at least ₹100 higher than the current highest bid.
             </p>
           </div>
 
-          {/* Quick Increment Buttons */}
+          {/* Quick Increment Buttons using authentic shadcn Button */}
           {!isEnded && (
             <div className="space-y-1.5 pt-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                Quick Increment from Current:
+              <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                Quick Increments:
               </span>
               <div className="grid grid-cols-3 gap-2">
                 {[100, 200, 500].map((inc) => (
@@ -233,7 +230,7 @@ export function BiddingPanel({
                     size="sm"
                     disabled={isEnded || isSubmitting}
                     onClick={() => handleQuickAdd(inc)}
-                    className="h-8.5 text-xs font-mono font-bold border-border bg-card text-foreground hover:bg-foreground hover:text-background transition-colors"
+                    className="h-8 text-xs font-mono font-medium"
                   >
                     +{formatCurrency(inc)}
                   </Button>
@@ -242,11 +239,11 @@ export function BiddingPanel({
             </div>
           )}
 
-          {/* Submit Button - Pure Typography Without Cluttered SVGs */}
+          {/* Submit Button - Authentic shadcn primary button */}
           <Button
             type="submit"
             disabled={isEnded || isSubmitting}
-            className="w-full h-11 text-sm font-bold tracking-wide uppercase shadow-sm transition-all"
+            className="w-full h-10 text-sm font-semibold tracking-wide shadow-sm"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -256,7 +253,7 @@ export function BiddingPanel({
             ) : isEnded ? (
               "Auction Ended — Bidding Closed"
             ) : (
-              <span>Place Bid</span>
+              "Place Bid"
             )}
           </Button>
         </form>
@@ -266,10 +263,10 @@ export function BiddingPanel({
         {/* Preset Sequence Matching User Example */}
         <div className="space-y-2 pt-1">
           <div className="flex items-center justify-between text-[11px]">
-            <span className="font-bold text-foreground">
-              Example Sequence Presets:
+            <span className="font-medium text-foreground">
+              Sequence Presets:
             </span>
-            <span className="text-[10px] text-muted-foreground">Click to autofill test</span>
+            <span className="text-[10px] text-muted-foreground">Autofill sample bids</span>
           </div>
 
           <div className="grid grid-cols-3 gap-2">
@@ -283,11 +280,11 @@ export function BiddingPanel({
                 type="button"
                 disabled={isEnded || isSubmitting}
                 onClick={() => handlePresetParticipant(preset.name, preset.amount)}
-                className="rounded-lg border border-border bg-secondary/50 p-2 text-left hover:border-foreground hover:bg-secondary disabled:opacity-50 transition-all cursor-pointer"
+                className="rounded-md border border-border bg-secondary/40 p-2 text-left hover:border-foreground/50 hover:bg-secondary disabled:opacity-50 transition-all cursor-pointer"
               >
                 <div className="flex justify-between items-center">
-                  <p className="text-xs font-bold text-foreground">{preset.name}</p>
-                  <span className="text-[9px] font-medium text-muted-foreground">{preset.note}</span>
+                  <span className="text-xs font-semibold text-foreground">{preset.name}</span>
+                  <span className="text-[9px] text-muted-foreground">{preset.note}</span>
                 </div>
                 <p className="font-mono text-[11px] text-foreground font-bold mt-0.5">
                   {formatCurrency(preset.amount)}
