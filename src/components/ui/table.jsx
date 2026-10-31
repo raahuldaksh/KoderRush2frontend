@@ -13,7 +13,7 @@ const Table = React.forwardRef(({ className, ...props }, ref) => (
 Table.displayName = "Table";
 
 const TableHeader = React.forwardRef(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b border-slate-200", className)} {...props} />
+  <thead ref={ref} className={cn("[&_tr]:border-b border-border bg-secondary/60", className)} {...props} />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -30,7 +30,7 @@ const TableFooter = React.forwardRef(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
     className={cn(
-      "border-t border-slate-200 bg-slate-50 font-medium [&>tr]:last:border-b-0",
+      "border-t border-border bg-secondary font-medium [&>tr]:last:border-b-0",
       className
     )}
     {...props}
@@ -42,7 +42,7 @@ const TableRow = React.forwardRef(({ className, ...props }, ref) => (
   <tr
     ref={ref}
     className={cn(
-      "border-b border-slate-100 transition-colors hover:bg-slate-50/80 data-[state=selected]:bg-slate-100",
+      "border-b border-border transition-colors hover:bg-secondary/50 data-[state=selected]:bg-secondary",
       className
     )}
     {...props}
@@ -54,7 +54,7 @@ const TableHead = React.forwardRef(({ className, ...props }, ref) => (
   <th
     ref={ref}
     className={cn(
-      "h-10 px-4 text-left align-middle font-semibold text-slate-600 [&:has([role=checkbox])]:pr-0",
+      "h-10 px-4 text-left align-middle font-semibold text-muted-foreground [&:has([role=checkbox])]:pr-0",
       className
     )}
     {...props}
@@ -65,7 +65,7 @@ TableHead.displayName = "TableHead";
 const TableCell = React.forwardRef(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    className={cn("p-4 align-middle text-foreground [&:has([role=checkbox])]:pr-0", className)}
     {...props}
   />
 ));
@@ -74,7 +74,7 @@ TableCell.displayName = "TableCell";
 const TableCaption = React.forwardRef(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={cn("mt-4 text-sm text-slate-500", className)}
+    className={cn("mt-4 text-sm text-muted-foreground", className)}
     {...props}
   />
 ));

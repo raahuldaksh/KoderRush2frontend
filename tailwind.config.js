@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,24 +8,28 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#FFFFFF',
-        foreground: '#111827',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: {
+          DEFAULT: 'var(--card)',
+          foreground: 'var(--card-foreground)',
+        },
         primary: {
-          DEFAULT: '#2563EB',
-          hover: '#1D4ED8',
-          foreground: '#FFFFFF',
+          DEFAULT: 'var(--primary)',
+          hover: 'var(--primary-hover)',
+          foreground: 'var(--primary-foreground)',
         },
         secondary: {
-          DEFAULT: '#F8FAFC',
-          foreground: '#0F172A',
+          DEFAULT: 'var(--secondary)',
+          foreground: 'var(--secondary-foreground)',
         },
         muted: {
-          DEFAULT: '#F1F5F9',
-          foreground: '#64748B',
+          DEFAULT: 'var(--muted)',
+          foreground: 'var(--muted-foreground)',
         },
         accent: {
-          DEFAULT: '#EFF6FF',
-          foreground: '#1D4ED8',
+          DEFAULT: 'var(--accent)',
+          foreground: 'var(--accent-foreground)',
         },
         destructive: {
           DEFAULT: '#DC2626',
@@ -34,31 +39,22 @@ export default {
           DEFAULT: '#16A34A',
           foreground: '#FFFFFF',
         },
-        border: '#E2E8F0',
-        input: '#E2E8F0',
-        ring: '#2563EB',
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['Roboto', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['Roboto Mono', 'monospace'],
       },
       keyframes: {
         'fade-in': {
           '0%': { opacity: '0', transform: 'translateY(6px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'pulse-subtle': {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.6' },
-        },
-        'bid-highlight': {
-          '0%': { backgroundColor: 'rgba(37, 99, 235, 0.15)', transform: 'scale(1.02)' },
-          '100%': { backgroundColor: 'transparent', transform: 'scale(1)' },
-        }
       },
       animation: {
         'fade-in': 'fade-in 0.25s ease-out forwards',
-        'pulse-subtle': 'pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'bid-highlight': 'bid-highlight 0.8s ease-out forwards',
       }
     },
   },

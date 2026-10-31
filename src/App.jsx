@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { AuctionItem } from "@/components/AuctionItem";
 import { BiddingPanel } from "@/components/BiddingPanel";
@@ -8,6 +8,33 @@ import { BidHistory } from "@/components/BidHistory";
 import { useAuction } from "@/hooks/useAuction";
 
 export default function App() {
+  // Theme state: defaults to 'light' (white theme) as requested
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem("bidspace_theme") || "light";
+    } catch {
+      return "light";
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("bidspace_theme", theme);
+    } catch {
+      // Ignore storage restrictions
+    }
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
   const {
     startingPrice,
     status,
@@ -27,13 +54,15 @@ export default function App() {
   } = useAuction(300);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white flex flex-col font-sans">
+    <div className={`min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-200 ${theme === "dark" ? "dark" : ""}`}>
       {/* Top Navigation & Status Bar */}
       <Header
         status={status}
         remainingSeconds={remainingSeconds}
         onReset={resetAuction}
         onFastForward={setTimerRemaining}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       {/* Main Content Dashboard */}
@@ -95,8 +124,8 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-800 bg-neutral-950 py-6 mt-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <footer className="border-t border-border bg-card py-6 mt-12 transition-colors">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} BidSpace Event Auction System. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5">

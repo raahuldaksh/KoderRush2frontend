@@ -7,15 +7,15 @@ const buttonVariants = ({
   className = "",
 } = {}) => {
   const base =
-    "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer";
+    "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer";
 
   const variants = {
-    default: "bg-blue-600 text-white shadow hover:bg-blue-700 active:bg-blue-800",
+    default: "bg-primary text-primary-foreground shadow-sm hover:opacity-90 active:scale-[0.98]",
     destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700 active:bg-red-800",
-    outline: "border border-slate-200 bg-white shadow-sm hover:bg-slate-50 hover:text-slate-900 active:bg-slate-100",
-    secondary: "bg-slate-100 text-slate-900 shadow-sm hover:bg-slate-200 active:bg-slate-300",
-    ghost: "hover:bg-slate-100 hover:text-slate-900",
-    link: "text-blue-600 underline-offset-4 hover:underline",
+    outline: "border border-border bg-card text-foreground shadow-xs hover:bg-secondary active:opacity-80",
+    secondary: "bg-secondary text-secondary-foreground shadow-xs hover:opacity-80",
+    ghost: "hover:bg-secondary hover:text-foreground",
+    link: "text-foreground underline-offset-4 hover:underline",
     success: "bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 active:bg-emerald-800",
   };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Headphones, Tag, ShieldCheck, Zap, Award } from "lucide-react";
+import { Headphones, Tag, ShieldCheck, Award } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -17,9 +17,9 @@ export function AuctionItem({
   const [imgError, setImgError] = useState(false);
 
   return (
-    <Card className="overflow-hidden border-slate-200 shadow-sm bg-white hover:shadow-md transition-shadow ring-1 ring-white/5">
+    <Card className="overflow-hidden border-border shadow-sm bg-card transition-colors">
       {/* Product Image Area */}
-      <div className="relative aspect-[16/10] w-full bg-slate-50 overflow-hidden flex items-center justify-center border-b border-slate-100">
+      <div className="relative aspect-[16/10] w-full bg-secondary/30 overflow-hidden flex items-center justify-center border-b border-border">
         {!imgError ? (
           <img
             src="/headphones.jpg"
@@ -28,12 +28,12 @@ export function AuctionItem({
             className="h-full w-full object-contain p-4 hover:scale-105 transition-transform duration-500 ease-out"
           />
         ) : (
-          <div className="flex flex-col items-center justify-center p-8 text-center text-slate-400">
-            <div className="h-20 w-20 rounded-2xl bg-slate-100 flex items-center justify-center mb-3">
-              <Headphones className="h-10 w-10 text-slate-500" />
+          <div className="flex flex-col items-center justify-center p-8 text-center text-muted-foreground">
+            <div className="h-20 w-20 rounded-2xl bg-secondary flex items-center justify-center mb-3">
+              <Headphones className="h-10 w-10 text-foreground" />
             </div>
-            <p className="text-sm font-medium text-slate-600">Premium Wireless Headphones</p>
-            <p className="text-xs text-slate-400">Image Fallback Preview</p>
+            <p className="text-sm font-medium text-foreground">Premium Wireless Headphones</p>
+            <p className="text-xs text-muted-foreground">Image Fallback Preview</p>
           </div>
         )}
 
@@ -43,8 +43,8 @@ export function AuctionItem({
         </div>
 
         {/* Authenticity tag */}
-        <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-slate-200 text-xs font-medium text-slate-700 shadow-xs">
-          <ShieldCheck className="h-3.5 w-3.5 text-blue-600" />
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-card/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-border text-xs font-medium text-foreground shadow-xs">
+          <ShieldCheck className="h-3.5 w-3.5 text-foreground" />
           <span>Verified Item</span>
         </div>
       </div>
@@ -53,18 +53,18 @@ export function AuctionItem({
         {/* Title & Tagline */}
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-2">
-            <Badge variant="outline" className="text-slate-600 border-slate-200 font-normal">
+            <Badge variant="outline" className="text-muted-foreground border-border font-normal">
               Audio & Electronics
             </Badge>
-            <Badge variant="outline" className="text-blue-700 border-blue-200 bg-blue-50/50 font-normal">
+            <Badge variant="outline" className="text-foreground border-border bg-secondary font-normal">
               Brand New In Box
             </Badge>
           </div>
 
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground font-sans">
             Premium Wireless Headphones
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Brand-new premium noise-cancelling wireless headphones with immersive sound,
             comfortable design and long-lasting battery life.
           </p>
@@ -73,31 +73,31 @@ export function AuctionItem({
         <Separator />
 
         {/* Pricing Matrix */}
-        <div className="grid grid-cols-2 gap-4 rounded-xl bg-slate-50/70 p-4 border border-slate-100">
+        <div className="grid grid-cols-2 gap-4 rounded-xl bg-secondary/40 p-4 border border-border">
           <div>
-            <span className="text-xs font-medium uppercase tracking-wider text-slate-500 flex items-center gap-1">
-              <Tag className="h-3.5 w-3.5 text-slate-400" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+              <Tag className="h-3.5 w-3.5 text-muted-foreground" />
               Starting Price
             </span>
-            <p className="mt-1 font-mono text-lg font-semibold text-slate-700">
+            <p className="mt-1 font-mono text-lg font-semibold text-foreground/80">
               {formatCurrency(startingPrice)}
             </p>
           </div>
 
-          <div className="border-l border-slate-200 pl-4">
-            <span className="text-xs font-semibold uppercase tracking-wider text-blue-700 flex items-center gap-1">
-              <Award className="h-3.5 w-3.5 text-blue-600" />
+          <div className="border-l border-border pl-4">
+            <span className="text-xs font-semibold uppercase tracking-wider text-foreground flex items-center gap-1">
+              <Award className="h-3.5 w-3.5 text-foreground" />
               Current Highest Bid
             </span>
-            <p className="mt-1 font-mono text-2xl font-extrabold text-blue-600">
+            <p className="mt-1 font-mono text-2xl font-black text-foreground">
               {formatCurrency(currentHighestBid)}
             </p>
             {highestBidder ? (
-              <p className="text-xs font-medium text-slate-600 truncate mt-0.5">
-                by <span className="font-semibold text-slate-900">{highestBidder}</span>
+              <p className="text-xs font-medium text-muted-foreground truncate mt-0.5">
+                by <span className="font-semibold text-foreground">{highestBidder}</span>
               </p>
             ) : (
-              <p className="text-xs text-slate-400 italic mt-0.5">No bids placed yet</p>
+              <p className="text-xs text-muted-foreground/60 italic mt-0.5">No bids placed yet</p>
             )}
           </div>
         </div>
