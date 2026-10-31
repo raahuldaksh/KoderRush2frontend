@@ -9,12 +9,12 @@ export function Header({ status, remainingSeconds, onReset, onFastForward }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
         {/* Brand & Logo */}
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm ring-4 ring-blue-50">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black shadow-sm ring-4 ring-neutral-800">
             <Gavel className="h-5 w-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold tracking-tight text-slate-900">BidSpace</h1>
+              <h1 className="text-xl font-bold tracking-tight text-white">BidSpace</h1>
               <Badge
                 variant={status === "LIVE" ? "live" : "secondary"}
                 className={
