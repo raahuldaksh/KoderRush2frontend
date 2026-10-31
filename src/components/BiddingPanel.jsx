@@ -1,0 +1,275 @@
+import React, { useState } from "react";
+import { Gavel, AlertCircle, CheckCircle2, User, IndianRupee, ArrowUpRight, Sparkles } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
+import { formatCurrency } from "@/lib/utils";
+
+export function BiddingPanel({
+  currentHighestBid,
+  highestBidder,
+  status,
+  onPlaceBid,
+  feedback,
+  onClearFeedback,
+  isSubmitting,
+}) {
+  const [bidderName, setBidderName] = useState("");
+  const [bidAmount, setBidAmount] = useState("");
+  const [localError, setLocalError] = useState("");
+
+  const isEnded = status === "ENDED";
+  const minAcceptableBid = currentHighestBid + 1;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLocalError("");
+    onClearFeedback();
+
+    const trimmedName = bidderName.trim();
+    if (!trimmedName) {
+      setLocalError("Participant name cannot be empty.");
+      return;
+    }
+
+    if (!bidAmount || bidAmount.trim() === "") {
+      setLocalError("Please enter a valid bid amount.");
+      return;
+    }
+
+    const num = parseFloat(bidAmount);
+    if (isNaN(num) || !isFinite(num) || num <= 0) {
+      setLocalError("Bid amount must be a positive number.");
+      return;
+    }
+
+    if (num <= currentHighestBid) {
+      setLocalError(`Bid must be strictly greater than current highest bid (${formatCurrency(currentHighestBid)}).`);
+      return;
+    }
+
+    // Call hook submit
+    const result = onPlaceBid(trimmedName, num);
+    if (result.success) {
+      setBidAmount(""); // Reset bid amount field per specs
+      setLocalError("");
+    } else if (result.error) {
+      setLocalError(result.error);
+    }
+  };
+
+  // Quick increment buttons based on current highest
+  const handleQuickAdd = (increment) => {
+    const nextVal = currentHighestBid + increment;
+    setBidAmount(nextVal.toString());
+    setLocalError("");
+  };
+
+  // Quick participant presets for demonstration
+  const handlePresetParticipant = (name, amount) => {
+    setBidderName(name);
+    setBidAmount(amount.toString());
+    setLocalError("");
+  };
+
+  return (
+    <Card className="border-slate-200 shadow-sm bg-white">
+      <CardHeader className="pb-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <Gavel className="h-5 w-5 text-blue-600" />
+            Place Your Bid
+          </CardTitle>
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+            Min Step: ₹1+
+          </span>
+        </div>
+        <CardDescription className="text-slate-500">
+          Enter your name and an amount higher than the current highest bid to participate.
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        {/* Status Callout / Reference */}
+        <div className="rounded-xl bg-slate-50 border border-slate-200 p-3.5 space-y-1.5 text-xs text-slate-600">
+          <div className="flex justify-between items-center">
+            <span className="text-slate-500">Current Highest Bid:</span>
+            <span className="font-mono font-bold text-slate-900 text-sm">
+              {formatCurrency(currentHighestBid)}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-slate-500">Minimum Acceptable Bid:</span>
+            <span className="font-mono font-semibold text-emerald-700 text-sm">
+              &gt; {formatCurrency(currentHighestBid)}
+            </span>
+          </div>
+          {highestBidder && (
+            <div className="flex justify-between items-center pt-1 border-t border-slate-200/60 text-slate-500">
+              <span>Leading Bidder:</span>
+              <span className="font-medium text-slate-900">{highestBidder}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Feedback Alert: Local error or hook error/success */}
+        {localError && (
+          <Alert variant="destructive" className="py-2.5">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle className="text-xs font-bold">Invalid Bid</AlertTitle>
+            <AlertDescription className="text-xs font-medium">{localError}</AlertDescription>
+          </Alert>
+        )}
+
+        {feedback && feedback.type === "error" && !localError && (
+          <Alert variant="destructive" className="py-2.5">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle className="text-xs font-bold">Bidding Error</AlertTitle>
+            <AlertDescription className="text-xs font-medium">{feedback.message}</AlertDescription>
+          </Alert>
+        )}
+
+        {feedback && feedback.type === "success" && (
+          <Alert variant="success" className="py-2.5 animate-fade-in">
+            <CheckCircle2 className="h-4 w-4" />
+            <AlertTitle className="text-xs font-bold">Bid Accepted!</AlertTitle>
+            <AlertDescription className="text-xs font-medium">{feedback.message}</AlertDescription>
+          </Alert>
+        )}
+
+        {/* Bidding Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Participant Name */}
+          <div className="space-y-1.5">
+            <Label htmlFor="bidderName" className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+              <User className="h-3.5 w-3.5 text-slate-400" />
+              Participant Name
+            </Label>
+            <Input
+              id="bidderName"
+              type="text"
+              placeholder="e.g., Rahul Sharma"
+              value={bidderName}
+              onChange={(e) => {
+                setBidderName(e.target.value);
+                setLocalError("");
+              }}
+              disabled={isEnded || isSubmitting}
+              className="bg-white"
+            />
+          </div>
+
+          {/* Bid Amount */}
+          <div className="space-y-1.5">
+            <Label htmlFor="bidAmount" className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+              <IndianRupee className="h-3.5 w-3.5 text-slate-400" />
+              Bid Amount (INR)
+            </Label>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 font-mono text-sm">
+                ₹
+              </div>
+              <Input
+                id="bidAmount"
+                type="number"
+                step="any"
+                min={minAcceptableBid}
+                placeholder={`Must be > ${currentHighestBid}`}
+                value={bidAmount}
+                onChange={(e) => {
+                  setBidAmount(e.target.value);
+                  setLocalError("");
+                }}
+                disabled={isEnded || isSubmitting}
+                className="pl-8 font-mono bg-white font-medium"
+              />
+            </div>
+            <p className="text-[11px] text-slate-400">
+              Must be strictly greater than {formatCurrency(currentHighestBid)}.
+            </p>
+          </div>
+
+          {/* Quick Increment Buttons */}
+          {!isEnded && (
+            <div className="space-y-1.5 pt-1">
+              <span className="text-[11px] font-medium text-slate-500">Quick Increment:</span>
+              <div className="grid grid-cols-3 gap-2">
+                {[100, 500, 1000].map((inc) => (
+                  <Button
+                    key={inc}
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={isEnded || isSubmitting}
+                    onClick={() => handleQuickAdd(inc)}
+                    className="h-8 text-xs font-mono font-medium border-slate-200 text-slate-700 hover:border-blue-400 hover:text-blue-700 hover:bg-blue-50/50"
+                  >
+                    +{formatCurrency(inc)}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            disabled={isEnded || isSubmitting}
+            className="w-full h-11 text-base font-semibold shadow-sm transition-all"
+          >
+            {isSubmitting ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                Validating Bid...
+              </span>
+            ) : isEnded ? (
+              "Auction Ended — Bidding Closed"
+            ) : (
+              <span className="flex items-center justify-center gap-1.5">
+                <ArrowUpRight className="h-4 w-4" />
+                Place Bid
+              </span>
+            )}
+          </Button>
+        </form>
+
+        <Separator />
+
+        {/* Participant Simulation Presets for Hackathon Testing */}
+        <div className="space-y-2 pt-1">
+          <div className="flex items-center justify-between text-[11px] text-slate-500">
+            <span className="flex items-center gap-1 font-semibold text-slate-600">
+              <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+              Simulate Participant:
+            </span>
+            <span className="text-[10px] text-slate-400">Click to autofill sample bids</span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { name: "Rahul", amount: 2500 },
+              { name: "Aman", amount: 3000 },
+              { name: "Priya", amount: 3500 },
+            ].map((preset) => (
+              <button
+                key={preset.name}
+                type="button"
+                disabled={isEnded || isSubmitting}
+                onClick={() => handlePresetParticipant(preset.name, preset.amount)}
+                className="rounded-lg border border-slate-200 bg-slate-50/80 p-2 text-left hover:border-blue-300 hover:bg-blue-50/40 disabled:opacity-50 transition-all cursor-pointer"
+              >
+                <p className="text-xs font-semibold text-slate-800">{preset.name}</p>
+                <p className="font-mono text-[11px] text-slate-500 font-medium">
+                  {formatCurrency(preset.amount)}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
