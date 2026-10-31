@@ -2,11 +2,13 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { formatCurrency } from "@/lib/utils";
 
 const STARTING_PRICE = 2000;
+const MINIMUM_INCREMENT = 100; // Specified minimum increment rule
 const DEFAULT_DURATION_SECONDS = 300; // 5 minutes
 
 export function useAuction(initialDuration = DEFAULT_DURATION_SECONDS) {
   // Auction configuration
   const startingPrice = STARTING_PRICE;
+  const minIncrement = MINIMUM_INCREMENT;
   
   // Track timestamps for accurate non-throttled timing
   const [endTimestamp, setEndTimestamp] = useState(() => Date.now() + initialDuration * 1000);
@@ -60,6 +62,9 @@ export function useAuction(initialDuration = DEFAULT_DURATION_SECONDS) {
     return () => clearInterval(intervalId);
   }, [endTimestamp, status]);
 
+  // Minimum next bid formula: currentHighestBid + 100
+  const minimumNextBid = auctionState.currentHighestBid + MINIMUM_INCREMENT;
+
   // Bid placement handler with strict validation
   const placeBid = useCallback((bidderName, bidAmount) => {
     // Check submission lock
@@ -99,10 +104,12 @@ export function useAuction(initialDuration = DEFAULT_DURATION_SECONDS) {
         return { success: false, error: err };
       }
 
-      // 4. Must be strictly greater than current highest bid
+      // 4. Minimum Bid Increment Rule: Must be >= currentHighestBid + 100
       const currentHighest = stateRef.current.currentHighestBid;
-      if (numericAmount <= currentHighest) {
-        const err = `Bid must be strictly greater than ${formatCurrency(currentHighest)}.`;
+      const requiredMinimum = currentHighest + MINIMUM_INCREMENT;
+
+      if (numericAmount < requiredMinimum) {
+        const err = `Bid of ${formatCurrency(numericAmount)} rejected. Minimum acceptable bid is ${formatCurrency(requiredMinimum)} (at least ₹100 higher than ${formatCurrency(currentHighest)}).`;
         setFeedback({ type: "error", message: err });
         return { success: false, error: err };
       }
@@ -165,7 +172,7 @@ export function useAuction(initialDuration = DEFAULT_DURATION_SECONDS) {
     });
     setFeedback({
       type: "info",
-      message: "Auction reset to initial state with ₹2,000 starting price.",
+      message: `Auction reset to starting price of ${formatCurrency(STARTING_PRICE)}. Minimum next bid is ${formatCurrency(STARTING_PRICE + MINIMUM_INCREMENT)}.`,
     });
   }, []);
 
@@ -178,6 +185,8 @@ export function useAuction(initialDuration = DEFAULT_DURATION_SECONDS) {
 
   return {
     startingPrice,
+    minIncrement,
+    minimumNextBid,
     status,
     remainingSeconds,
     isEndingSoon,

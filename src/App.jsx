@@ -37,6 +37,7 @@ export default function App() {
 
   const {
     startingPrice,
+    minimumNextBid,
     status,
     remainingSeconds,
     isEndingSoon,
@@ -92,6 +93,7 @@ export default function App() {
             ) : (
               <BiddingPanel
                 currentHighestBid={currentHighestBid}
+                minimumNextBid={minimumNextBid}
                 highestBidder={highestBidder}
                 status={status}
                 onPlaceBid={placeBid}
