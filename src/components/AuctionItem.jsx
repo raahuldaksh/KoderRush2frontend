@@ -17,7 +17,7 @@ export function AuctionItem({
   const [imgError, setImgError] = useState(false);
 
   return (
-    <Card className="overflow-hidden border-slate-200 shadow-sm bg-white hover:shadow-md transition-shadow">
+    <Card className="overflow-hidden border-slate-200 shadow-sm bg-white hover:shadow-md transition-shadow ring-1 ring-white/5">
       {/* Product Image Area */}
       <div className="relative aspect-[16/10] w-full bg-slate-50 overflow-hidden flex items-center justify-center border-b border-slate-100">
         {!imgError ? (

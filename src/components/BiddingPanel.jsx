@@ -76,7 +76,7 @@ export function BiddingPanel({
   };
 
   return (
-    <Card className="border-slate-200 shadow-sm bg-white">
+    <Card className="border-slate-200 shadow-sm bg-white ring-1 ring-white/5">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">

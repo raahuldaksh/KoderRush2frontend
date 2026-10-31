@@ -27,7 +27,7 @@ export default function App() {
   } = useAuction(300);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#111827] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#050505] text-white flex flex-col font-sans">
       {/* Top Navigation & Status Bar */}
       <Header
         status={status}
@@ -95,7 +95,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-6 mt-12">
+      <footer className="border-t border-neutral-800 bg-neutral-950 py-6 mt-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} BidSpace Event Auction System. All rights reserved.</p>
           <div className="flex items-center gap-4">
