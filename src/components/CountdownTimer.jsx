@@ -14,16 +14,16 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
 
   return (
     <div
-      className={`rounded-xl border p-4 transition-all duration-300 ${
+      className={`rounded-xl border p-4.5 transition-all duration-300 ${
         isEnded
-          ? "border-border bg-secondary/50 text-muted-foreground"
+          ? "border-border bg-secondary/60 text-muted-foreground"
           : isEndingSoon
-          ? "border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-300"
-          : "border-border bg-secondary/30 text-foreground"
+          ? "border-amber-500/50 bg-amber-500/10 text-amber-900 dark:text-amber-200"
+          : "border-border bg-secondary/40 text-foreground"
       }`}
     >
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
           <Clock className={`h-4 w-4 ${isEndingSoon ? "text-amber-500 animate-spin" : "text-foreground"}`} />
           <span>{isEnded ? "Auction Status" : "Time Remaining"}</span>
         </div>
@@ -36,32 +36,32 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
         )}
 
         {isEnded && (
-          <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-semibold text-muted-foreground border border-border">
+          <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-muted-foreground border border-border">
             Closed
           </span>
         )}
       </div>
 
       <div className="flex items-baseline justify-between">
-        <div className="font-mono text-3xl sm:text-4xl font-extrabold tracking-tight">
+        <div className="font-mono text-4xl sm:text-5xl font-black tracking-tight">
           {isEnded ? (
             <span className="text-xl sm:text-2xl font-bold text-muted-foreground tracking-normal font-sans">
               Auction Ended
             </span>
           ) : (
-            <span className={isEndingSoon ? "text-amber-700 dark:text-amber-400 font-bold" : "text-foreground font-bold"}>
+            <span className={isEndingSoon ? "text-amber-700 dark:text-amber-400 font-black" : "text-foreground font-black"}>
               {formatCountdown(remainingSeconds)}
             </span>
           )}
         </div>
 
-        <span className="text-xs text-muted-foreground font-mono">
+        <span className="text-xs font-bold font-mono text-muted-foreground tracking-widest uppercase">
           {isEnded ? "00:00" : "MM:SS"}
         </span>
       </div>
 
       {/* Visual countdown progress */}
-      <div className="mt-3">
+      <div className="mt-3.5">
         <Progress
           value={percentRemaining}
           indicatorColor={
@@ -69,7 +69,7 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
               ? "bg-muted-foreground"
               : isEndingSoon
               ? "bg-amber-500"
-              : "bg-primary"
+              : "bg-foreground"
           }
           className="h-2"
         />

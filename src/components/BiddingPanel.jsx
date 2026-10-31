@@ -79,38 +79,38 @@ export function BiddingPanel({
     <Card className="border-border shadow-sm bg-card transition-colors">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-bold text-foreground flex items-center gap-2 font-sans">
+          <CardTitle className="text-xl font-black text-foreground flex items-center gap-2 font-sans">
             <Gavel className="h-5 w-5 text-foreground" />
             Place Your Bid
           </CardTitle>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground border border-border">
-            Min Step: ₹1+
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-secondary text-foreground border border-border">
+            Step: ₹1+
           </span>
         </div>
-        <CardDescription className="text-muted-foreground">
-          Enter your name and an amount higher than the current highest bid to participate.
+        <CardDescription className="text-muted-foreground text-xs">
+          Enter your name and an amount strictly higher than the current highest bid.
         </CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Status Callout / Reference */}
-        <div className="rounded-xl bg-secondary/40 border border-border p-3.5 space-y-1.5 text-xs text-muted-foreground">
+        {/* Status Callout / Reference - Clean B&W Structural Box */}
+        <div className="rounded-xl bg-secondary/50 border border-border p-3.5 space-y-2 text-xs">
           <div className="flex justify-between items-center">
-            <span>Current Highest Bid:</span>
-            <span className="font-mono font-bold text-foreground text-sm">
+            <span className="text-muted-foreground font-medium">Current Highest Bid:</span>
+            <span className="font-mono font-black text-foreground text-base">
               {formatCurrency(currentHighestBid)}
             </span>
           </div>
           <div className="flex justify-between items-center">
-            <span>Minimum Acceptable Bid:</span>
-            <span className="font-mono font-semibold text-emerald-600 dark:text-emerald-400 text-sm">
+            <span className="text-muted-foreground font-medium">Minimum Acceptable Bid:</span>
+            <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400 text-sm">
               &gt; {formatCurrency(currentHighestBid)}
             </span>
           </div>
           {highestBidder && (
-            <div className="flex justify-between items-center pt-1 border-t border-border">
-              <span>Leading Bidder:</span>
-              <span className="font-medium text-foreground">{highestBidder}</span>
+            <div className="flex justify-between items-center pt-1.5 border-t border-border/80">
+              <span className="text-muted-foreground font-medium">Leading Bidder:</span>
+              <span className="font-bold text-foreground">{highestBidder}</span>
             </div>
           )}
         </div>
@@ -144,7 +144,7 @@ export function BiddingPanel({
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Participant Name */}
           <div className="space-y-1.5">
-            <Label htmlFor="bidderName" className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+            <Label htmlFor="bidderName" className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
               <User className="h-3.5 w-3.5 text-muted-foreground" />
               Participant Name
             </Label>
@@ -158,12 +158,13 @@ export function BiddingPanel({
                 setLocalError("");
               }}
               disabled={isEnded || isSubmitting}
+              className="h-10 text-sm font-medium"
             />
           </div>
 
           {/* Bid Amount */}
           <div className="space-y-1.5">
-            <Label htmlFor="bidAmount" className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+            <Label htmlFor="bidAmount" className="text-xs font-bold uppercase tracking-wider text-foreground flex items-center gap-1.5">
               <IndianRupee className="h-3.5 w-3.5 text-muted-foreground" />
               Bid Amount (INR)
             </Label>
@@ -183,7 +184,7 @@ export function BiddingPanel({
                   setLocalError("");
                 }}
                 disabled={isEnded || isSubmitting}
-                className="pl-8 font-mono font-medium"
+                className="pl-8 font-mono font-bold text-sm h-10"
               />
             </div>
             <p className="text-[11px] text-muted-foreground">
@@ -191,10 +192,12 @@ export function BiddingPanel({
             </p>
           </div>
 
-          {/* Quick Increment Buttons */}
+          {/* Quick Increment Buttons with B&W invert hover */}
           {!isEnded && (
             <div className="space-y-1.5 pt-1">
-              <span className="text-[11px] font-medium text-muted-foreground">Quick Increment:</span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                Quick Increment:
+              </span>
               <div className="grid grid-cols-3 gap-2">
                 {[100, 500, 1000].map((inc) => (
                   <Button
@@ -204,7 +207,7 @@ export function BiddingPanel({
                     size="sm"
                     disabled={isEnded || isSubmitting}
                     onClick={() => handleQuickAdd(inc)}
-                    className="h-8 text-xs font-mono font-medium"
+                    className="h-8.5 text-xs font-mono font-bold border-border bg-card text-foreground hover:bg-foreground hover:text-background transition-colors"
                   >
                     +{formatCurrency(inc)}
                   </Button>
@@ -213,11 +216,11 @@ export function BiddingPanel({
             </div>
           )}
 
-          {/* Submit Button */}
+          {/* Submit Button - Solid High Contrast */}
           <Button
             type="submit"
             disabled={isEnded || isSubmitting}
-            className="w-full h-11 text-base font-semibold shadow-sm transition-all"
+            className="w-full h-11 text-sm font-bold tracking-wide uppercase shadow-sm transition-all"
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">
@@ -239,8 +242,8 @@ export function BiddingPanel({
 
         {/* Participant Simulation Presets for Hackathon Testing */}
         <div className="space-y-2 pt-1">
-          <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-            <span className="flex items-center gap-1 font-semibold text-foreground">
+          <div className="flex items-center justify-between text-[11px]">
+            <span className="flex items-center gap-1 font-bold text-foreground">
               <Sparkles className="h-3.5 w-3.5 text-foreground" />
               Simulate Participant:
             </span>
@@ -258,10 +261,10 @@ export function BiddingPanel({
                 type="button"
                 disabled={isEnded || isSubmitting}
                 onClick={() => handlePresetParticipant(preset.name, preset.amount)}
-                className="rounded-lg border border-border bg-secondary/40 p-2 text-left hover:border-foreground/50 hover:bg-secondary disabled:opacity-50 transition-all cursor-pointer"
+                className="rounded-lg border border-border bg-secondary/50 p-2.5 text-left hover:border-foreground hover:bg-secondary disabled:opacity-50 transition-all cursor-pointer"
               >
-                <p className="text-xs font-semibold text-foreground">{preset.name}</p>
-                <p className="font-mono text-[11px] text-muted-foreground font-medium">
+                <p className="text-xs font-bold text-foreground">{preset.name}</p>
+                <p className="font-mono text-[11px] text-muted-foreground font-semibold">
                   {formatCurrency(preset.amount)}
                 </p>
               </button>
