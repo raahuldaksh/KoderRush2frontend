@@ -61,12 +61,8 @@
     color: #f5f5f5 !important;
   }
 
-  .text-slate-600, .text-slate-500 {
-    color: #b8b8b8 !important;
-  }
-
-  .text-slate-400 {
-    color: #858585 !important;
+  .text-slate-600, .text-slate-500, .text-slate-400 {
+    color: #f5f5f5 !important;
   }
 
   #root {
