@@ -18,18 +18,18 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
         isEnded
           ? "border-slate-200 bg-slate-50"
           : isEndingSoon
-          ? "border-amber-300 bg-amber-50/70 text-amber-950"
-          : "border-blue-100 bg-blue-50/50 text-slate-900"
+          ? "border-slate-900 bg-slate-100 text-slate-950"
+          : "border-slate-300 bg-white text-slate-900"
       }`}
     >
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600">
-          <Clock className={`h-4 w-4 ${isEndingSoon ? "text-amber-600 animate-spin" : "text-blue-600"}`} />
+          <Clock className={`h-4 w-4 ${isEndingSoon ? "text-slate-950 animate-spin" : "text-slate-900"}`} />
           <span>{isEnded ? "Auction Status" : "Time Remaining"}</span>
         </div>
 
         {isEndingSoon && !isEnded && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-bold text-amber-800 animate-pulse">
+          <span className="inline-flex items-center gap-1 rounded-full bg-slate-200 px-2 py-0.5 text-[11px] font-bold text-slate-950 animate-pulse">
             <AlertTriangle className="h-3 w-3" />
             Ending Soon!
           </span>
@@ -49,7 +49,7 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
               Auction Ended
             </span>
           ) : (
-            <span className={isEndingSoon ? "text-amber-700 font-bold" : "text-blue-700 font-bold"}>
+            <span className={"text-slate-950 font-bold"}>
               {formatCountdown(remainingSeconds)}
             </span>
           )}
@@ -68,8 +68,8 @@ export function CountdownTimer({ remainingSeconds, status, totalDuration = 300 }
             isEnded
               ? "bg-slate-400"
               : isEndingSoon
-              ? "bg-amber-500"
-              : "bg-blue-600"
+              ? "bg-slate-950"
+              : "bg-slate-950"
           }
           className="h-2 bg-slate-200/80"
         />
